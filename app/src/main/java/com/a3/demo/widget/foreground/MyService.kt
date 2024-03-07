@@ -54,21 +54,21 @@ class MyService : Service() {
         startForeground(1, notification)
         Log.d(TAG, "isWidgetUpdating: ${WidgetUpdater.isWidgetUpdating}")
 
-        if (!WidgetUpdater.isWidgetUpdating) {
-            val UNIQUE_WORK_NAME = "WidgetUpdater"
-            val workManager = WorkManager.getInstance(this)
-            val request = PeriodicWorkRequest.Builder(
-                WidgetUpdater::class.java,
-                16,
-                TimeUnit.MINUTES
-            ).build()
 
-            workManager.enqueueUniquePeriodicWork(
-                UNIQUE_WORK_NAME,
-                ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
-                request
-            )
-        }
+        val UNIQUE_WORK_NAME = "WidgetUpdater"
+        val workManager = WorkManager.getInstance(this)
+        val request = PeriodicWorkRequest.Builder(
+            WidgetUpdater::class.java,
+            16,
+            TimeUnit.MINUTES
+        ).build()
+
+        workManager.enqueueUniquePeriodicWork(
+            UNIQUE_WORK_NAME,
+            ExistingPeriodicWorkPolicy.UPDATE,
+            request
+        )
+
 
         return START_STICKY
     }

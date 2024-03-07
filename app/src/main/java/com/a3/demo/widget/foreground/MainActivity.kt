@@ -83,17 +83,6 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-    fun testWidgetUpdater() {
-        val workManager = WorkManager.getInstance(this)
-        val request = PeriodicWorkRequest.Builder(
-            WidgetUpdater::class.java,
-            15,
-            TimeUnit.MINUTES
-        )
-            .build()
-        workManager.enqueue(request)
-    }
-
     companion object {
         private const val TAG = "MainActivity"
     }

@@ -3,6 +3,7 @@ package com.a3.demo.widget.foreground
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -20,8 +21,7 @@ class WidgetUpdater(
             return Result.success()
         }
         instances++
-        var i = 0
-        while (i <= 900) {
+        while (true) {
             Log.d(TAG, "WidgetUpdater instances: $instances")
             isWidgetUpdating = true
             val appWidgetManager = AppWidgetManager.getInstance(context)
@@ -32,13 +32,12 @@ class WidgetUpdater(
             for (appWidgetId in appWidgetIds) {
                 updateAppWidget(context, appWidgetManager, appWidgetId)
             }
-            i++
             Thread.sleep(1000)
         }
-        isWidgetUpdating = false
-        instances--
         return Result.success()
     }
+
+
 
     companion object {
         private const val TAG = "WidgetUpdater"
