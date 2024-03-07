@@ -47,23 +47,25 @@ class MyService : Service() {
         val notification: Notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Service is Running")
             .setContentText("Listening for Screen Off/On events")
+            .setSilent(true)
             .setContentIntent(pendingIntent)
             .build()
 
         startForeground(1, notification)
+        Log.d(TAG, "isWidgetUpdating: ${WidgetUpdater.isWidgetUpdating}")
 
         if (!WidgetUpdater.isWidgetUpdating) {
             val UNIQUE_WORK_NAME = "WidgetUpdater"
             val workManager = WorkManager.getInstance(this)
             val request = PeriodicWorkRequest.Builder(
                 WidgetUpdater::class.java,
-                15,
+                16,
                 TimeUnit.MINUTES
-            )
-                .build()
+            ).build()
+
             workManager.enqueueUniquePeriodicWork(
                 UNIQUE_WORK_NAME,
-                ExistingPeriodicWorkPolicy.UPDATE,
+                ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
                 request
             )
         }

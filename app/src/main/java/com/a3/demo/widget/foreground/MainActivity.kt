@@ -114,9 +114,9 @@ class MainActivity : ComponentActivity() {
             Button(onClick = { stopService() }) {
                 Text(text = "Stop Service")
             }
-            Button(onClick = { testWidgetUpdater() }) {
+            /*Button(onClick = { testWidgetUpdater() }) {
                 Text(text = "Test Widget Updater")
-            }
+            }*/
         }
     }
 

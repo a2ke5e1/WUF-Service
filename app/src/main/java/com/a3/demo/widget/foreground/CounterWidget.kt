@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.RemoteViews
 
 /**
@@ -57,4 +58,7 @@ internal fun updateAppWidget(
     edit.apply()
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
+
+    Log.d("CounterWidget", "updateAppWidget called")
+    Log.d("CounterWidget", "count: $count")
 }
