@@ -3,6 +3,7 @@ package com.a3.demo.widget.foreground
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.util.Log
 import android.widget.RemoteViews
@@ -50,15 +51,17 @@ internal fun updateAppWidget(
     // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.counter_widget)
 
-    val pref = context.getSharedPreferences("counter", Context.MODE_PRIVATE)
-    val count = pref.getInt("count", 0)
-    views.setTextViewText(R.id.appwidget_text, count.toString())
-    val edit = pref.edit()
-    edit.putInt("count", count + 1)
-    edit.apply()
+    // val pref = context.getSharedPreferences("counter", Context.MODE_PRIVATE)
+    // val count = pref.getInt("count", 0)
+    val currentDateTime = System.currentTimeMillis()
+    val formattedValue = SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(currentDateTime)
+    views.setTextViewText(R.id.appwidget_text, formattedValue)
+    // val edit = pref.edit()
+    // edit.putInt("count", count + 1)
+    // edit.apply()
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
 
     Log.d("CounterWidget", "updateAppWidget called")
-    Log.d("CounterWidget", "count: $count")
+    // Log.d("CounterWidget", "count: $count")
 }

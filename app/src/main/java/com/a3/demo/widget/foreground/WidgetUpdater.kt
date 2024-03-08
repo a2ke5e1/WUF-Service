@@ -1,6 +1,7 @@
 package com.a3.demo.widget.foreground
 
 import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -24,14 +25,13 @@ class WidgetUpdater(
         while (true) {
             Log.d(TAG, "WidgetUpdater instances: $instances")
             isWidgetUpdating = true
-            val appWidgetManager = AppWidgetManager.getInstance(context)
-            val appWidgetIds = appWidgetManager.getAppWidgetIds(
-                ComponentName(context, CounterWidget::class.java)
-            )
-
-            for (appWidgetId in appWidgetIds) {
-                updateAppWidget(context, appWidgetManager, appWidgetId)
-            }
+            val widgetIntent = Intent(context, CounterWidget::class.java)
+            widgetIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            val ids = AppWidgetManager.getInstance(context)
+                .getAppWidgetIds(ComponentName(context, CounterWidget::class.java))
+            widgetIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            context.sendBroadcast(widgetIntent)
+            Log.d(TAG, "WidgetUpdater: updating widget")
             Thread.sleep(1000)
         }
         return Result.success()
